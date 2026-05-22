@@ -2,10 +2,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 documents = [
-    "Redis is an in-memory database",
-    "PostgreSQL supports SQL databases",
-    "FastAPI is a Python framework",
-    "RabbitMQ is a message broker",
+    "Redis is an in-memory database database database",
+    "PostgreSQL supports SQL database",
+    "FastAPI is a Python framework database",
+    "RabbitMQ is a message broker database",
 ]
 
 

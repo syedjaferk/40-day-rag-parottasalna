@@ -1,6 +1,7 @@
 from collections import Counter
 
-document = "redis redis fastapi caching"
+document = "Redis is an in-memory database database database"
+
 
 tokens = document.split()
 

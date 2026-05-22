@@ -18,9 +18,11 @@ df_counts = Counter()
 for doc in documents:
     # Unique words only
     unique_terms = set(doc.split())
-
+    print(unique_terms)
     for term in unique_terms:
         df_counts[term] += 1
+    print(df_counts)
+    print("#" * 10)
 
 # Calculate IDF
 idf_scores = {}

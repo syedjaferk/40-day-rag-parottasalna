@@ -9,13 +9,13 @@ documents = [
     "Python backend engineering",
 ]
 
-# Sparse Retrieval
+# Sparse Retrieval - Text based
 
 tokenized_docs = [doc.lower().split() for doc in documents]
 
 bm25 = BM25Okapi(tokenized_docs)
 
-# Dense Retrieval
+# Dense Retrieval - Semantic
 
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
