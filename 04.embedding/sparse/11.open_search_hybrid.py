@@ -1,11 +1,12 @@
 """
 START OPENSEARCH
 
-docker run -d \
+docker run -d --rm\
   --name opensearch \
   -p 9200:9200 \
   -e "discovery.type=single-node" \
   -e "plugins.security.disabled=true" \
+  -e "OPENSEARCH_INITIAL_ADMIN_PASSWORD=61iU.G@07D4V" \
   opensearchproject/opensearch:latest
 """
 
@@ -16,7 +17,7 @@ from tqdm import tqdm
 
 INDEX_NAME = "imdb_movies"
 CSV_FILE = "imdb_processed.csv"
-EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"  # Sentence Transformer
 TOP_K = 5
 
 print("\nLoading IMDb Dataset...")
@@ -44,34 +45,20 @@ documents = []
 
 for _, row in df.iterrows():
     movie_name = str(row["Movie Name"])
-
     description = str(row["Description"])
-
     duration = str(row["Duration"])
-
     imdb_rating = str(row["IMdb rating"])
-
     rating = str(row["Rating"])
-
     votes = str(row["Votes"])
-
     poster = str(row["Poster"])
-
     month_of_release = str(row["Month of Release"])
-
     combined_text = f"""
     Movie Name: {movie_name}
-
     Description: {description}
-
     Duration: {duration}
-
     IMDb Rating: {imdb_rating}
-
     Rating: {rating}
-
     Votes: {votes}
-
     Month of Release: {month_of_release}
     """
 
@@ -90,13 +77,11 @@ for _, row in df.iterrows():
     documents.append(document)
 
 print(f"\nTotal Documents Prepared: {len(documents)}")
-
 print("\nLoading Embedding Model...")
 
 model = SentenceTransformer(EMBEDDING_MODEL)
 
 print("\nEmbedding Model Loaded Successfully")
-
 print("\nGenerating Embeddings...")
 
 texts = [doc["combined_text"] for doc in documents]
@@ -125,6 +110,8 @@ client = OpenSearch(
 
 print("\nConnected Successfully")
 
+
+# Not needed all time.
 if client.indices.exists(index=INDEX_NAME):
     print("\nDeleting Existing Index...")
 
@@ -154,7 +141,6 @@ mapping = {
 client.indices.create(index=INDEX_NAME, body=mapping)
 
 print("\nIndex Created Successfully")
-
 print("\nIndexing Documents...")
 
 for doc, embedding in tqdm(zip(documents, embeddings), total=len(documents)):
@@ -181,9 +167,7 @@ print("\nDocuments Indexed Successfully")
 
 
 def sparse_search(query_text):
-    print("\n==============================")
     print("SPARSE SEARCH (BM25)")
-    print("==============================")
 
     query = {
         "size": TOP_K,
@@ -191,7 +175,7 @@ def sparse_search(query_text):
             "multi_match": {
                 "query": query_text,
                 "fields": [
-                    "movie_name^3",
+                    "movie_name",
                     "description",
                     "month_of_release",
                 ],
@@ -210,26 +194,17 @@ def sparse_search(query_text):
         source = hit["_source"]
 
         print(f"\nRank #{i}")
-
         print("Score:", round(hit["_score"], 4))
-
         print("Movie Name:", source["movie_name"])
-
         print("IMDb Rating:", source["imdb_rating"])
-
         print("Duration:", source["duration"])
-
         print("Votes:", source["votes"])
-
         print("Month:", source["month_of_release"])
-
         print("Description:", source["description"][:300])
 
 
 def dense_search(query_text):
-    print("\n==============================")
     print("DENSE VECTOR SEARCH")
-    print("==============================")
 
     query_embedding = model.encode(query_text)
 
@@ -256,26 +231,17 @@ def dense_search(query_text):
         source = hit["_source"]
 
         print(f"\nRank #{i}")
-
         print("Score:", round(hit["_score"], 4))
-
         print("Movie Name:", source["movie_name"])
-
         print("IMDb Rating:", source["imdb_rating"])
-
         print("Duration:", source["duration"])
-
         print("Votes:", source["votes"])
-
         print("Month:", source["month_of_release"])
-
         print("Description:", source["description"][:300])
 
 
 def hybrid_search(query_text):
-    print("\n==============================")
     print("HYBRID SEARCH")
-    print("==============================")
 
     query_embedding = model.encode(query_text)
 
@@ -288,7 +254,7 @@ def hybrid_search(query_text):
                         "multi_match": {
                             "query": query_text,
                             "fields": [
-                                "movie_name^3",
+                                "movie_name",
                                 "description",
                                 "month_of_release",
                             ],
@@ -318,19 +284,12 @@ def hybrid_search(query_text):
         source = hit["_source"]
 
         print(f"\nRank #{i}")
-
         print("Score:", round(hit["_score"], 4))
-
         print("Movie Name:", source["movie_name"])
-
         print("IMDb Rating:", source["imdb_rating"])
-
         print("Duration:", source["duration"])
-
         print("Votes:", source["votes"])
-
         print("Month:", source["month_of_release"])
-
         print("Description:", source["description"][:300])
 
 
@@ -347,14 +306,12 @@ while True:
 
     if choice == "4":
         print("\nGoodbye")
-
         break
 
     query = input("\nEnter Query: ").strip()
 
     if not query:
         print("\nQuery cannot be empty")
-
         continue
 
     if choice == "1":
