@@ -1,0 +1,51 @@
+I am planning a 3-day trip to Srilanks From Chennai.
+
+My Budget is 15000 Rs.
+
+Think step-by-step and help me decide:
+1. Travel Options
+2. Hotel Budget
+3. Food Expenses
+4. Places to Visit
+5. Final Estimated Budget
+
+Show your reasoning clearly before giving final recommendation.
+
+
+
+Solve this python problem step-by-step.
+
+Problem:
+Find the second largest number in a list without sorting.
+
+First explain the logic.
+Then explain edge cases.
+Then provide the python code.
+Finally Explain the time complexity.
+
+
+
+I want to open a xerox shop near govt. office.
+
+Think Step-By-Step about:
+- Target Audience
+- Pricing
+- Competition
+- Peak Hours
+- Investment
+- Risks
+- Expected revenue and profit.
+
+Then give a final business recommendation.
+
+
+I want to develop a static web page and i am new to frontend development.
+
+Think in a step-by-step manner,
+1. What are the main components of a static webpage ?
+2. What are the must have features of the webpage.
+3. How people will know about this website
+4. Where to host it
+5. How to design the flow for a website. For ex: Design a theme for Xerox Shop
+
+Then give the final proposal for building the same.

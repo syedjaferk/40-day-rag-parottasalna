@@ -1,0 +1,42 @@
+SQL Optimization
+================
+
+ROLE: You are a PostgreSQL performance expert.
+INPUT: I have a query taking 10 seconds on a 5 million row table.
+Constraints:
+    1. Avoid changing schema drastically
+    2. Minimize downtime
+    3. Keep compatibility with postgresql 14
+
+Expectations:
+    Provide:
+    1. Bottlenect analysis
+    2. Indexing suggestions
+    3. Optimized query
+
+
+SQL Query: SELECT * FROM actor;
+EXPLAIN (ANALYZE, BUFFERS) output
+                                             QUERY PLAN
+----------------------------------------------------------------------------------------------------
+ Seq Scan on actor  (cost=0.00..4.00 rows=200 width=25) (actual time=0.016..0.750 rows=200 loops=1)
+ Planning Time: 0.064 ms
+ Execution Time: 1.046 ms
+(3 rows)
+
+
+                                                                       Table "public.actor"
+   Column    |            Type             | Collation | Nullable |                 Default                 | Storage  | Compression | Stats target | Description
+-------------+-----------------------------+-----------+----------+-----------------------------------------+----------+-------------+--------------+-------------
+ actor_id    | integer                     |           | not null | nextval('actor_actor_id_seq'::regclass) | plain    |             |              |
+ first_name  | character varying(45)       |           | not null |                                         | extended |             |              |
+ last_name   | character varying(45)       |           | not null |                                         | extended |             |              |
+ last_update | timestamp without time zone |           | not null | now()                                   | plain    |             |              |
+Indexes:
+    "actor_pkey" PRIMARY KEY, btree (actor_id)
+    "idx_actor_last_name" btree (last_name)
+Referenced by:
+    TABLE "film_actor" CONSTRAINT "film_actor_actor_id_fkey" FOREIGN KEY (actor_id) REFERENCES actor(actor_id) ON UPDATE CASCADE ON DELETE RESTRICT
+Triggers:
+    last_updated BEFORE UPDATE ON actor FOR EACH ROW EXECUTE FUNCTION last_updated()
+Access method: heap

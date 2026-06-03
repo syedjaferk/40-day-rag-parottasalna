@@ -1,0 +1,9 @@
+Blog Writing
+=============
+
+
+Context: I run a backend engineering blog for beginners.
+Role: You are a senior backend engineer and a techincal writer.
+Instruction: Write a detailed blog on Redis Pub/Sub with python examples.
+Style: Use simple english, real-world analogies, diagrams in markdown, and code examples in python and java.
+Purpose: Help Beginners to understand Redis Pub/Sub practically.

@@ -1,0 +1,61 @@
+40-Day Learning Journey
+
+
+Phase 1: Foundations (Days 1–8)
+
+    Day 1 – Introduction to RAG & LLMs - Done
+    Day 2 – Text preprocessing pipeline - Done
+    Day 3 – Chunking basics - Done
+    Day 4 – Embeddings explained - Done
+    Day 5 – Vector DB with FAISS - Done
+    Day 6 – First RAG pipeline - Done
+    Day 7 – Prompt engineering
+    Day 8 – FastAPI RAG API
+
+
+Phase 2: Strong RAG Systems (Days 9–16)
+
+    Day 9 – Similarity search tuning
+    Day 10 – Advanced chunking strategies
+    Day 11 – Multi-document RAG
+    Day 12 – Metadata filtering
+    Day 13 – Hybrid search (BM25 + vectors) Done
+    Day 14 – Re-ranking results
+    Day 15 – Query expansion
+    Day 16 – Redis caching
+
+
+Phase 3: Advanced Retrieval & Reasoning (Days 17–24)
+
+    Day 17 – Query understanding
+    Day 18 – Context compression
+    Day 19 – Multi-hop retrieval
+    Day 20 – Conversational RAG (memory)
+    Day 21 – RAG + SQL integration
+    Day 22 – Async pipelines
+    Day 23 – Streaming responses
+    Day 24 – Modular pipelines with LangChain
+
+
+Phase 4: Agentic AI & Evaluation (Days 25–32)
+
+    Day 25 – RAG with agents
+    Day 26 – Multi-agent systems using CrewAI
+    Day 27 – MCP integration
+    Day 28 – Memory systems
+    Day 29 – Evaluation with Ragas
+    Day 30 – Hallucination detection
+    Day 31 – Observability with LangSmith
+    Day 32 – Cost optimization
+
+
+Phase 5: Production AI Systems (Days 33–40)
+
+    Day 33 – Multi-tenant RAG
+    Day 34 – Real-time data ingestion
+    Day 35 – Vector DB alternatives: Chroma & Weaviate
+    Day 36 – Distributed retrieval systems
+    Day 37 – Multimodal RAG (image + text)
+    Day 38 – AI security & guardrails
+    Day 39 – Load testing & performance
+    Day 40 – Capstone: Enterprise RAG System

@@ -1,0 +1,36 @@
+I Want to switch my career into tech.
+
+Explore multiple career paths:
+
+1. Backend Engineering
+2. DevOps
+3. Data Engineering
+4. AI Engineering
+
+For Each Path:
+- Learning Curve
+- Salary Potential
+- Future Demand
+- Difficuly
+- Required Skills
+- Time to get a Job.
+
+Then compare all the paths and recommend the best option for someone from a non CS background.
+
+
+Design a real time chat system.
+
+Explore multiple architectures:
+1. Monolith
+2. Microservices
+3. Event Driven
+4. Serverless
+
+For each architecture:
+- Scalabilty
+- Cost
+- Complexity
+- Deployemnt
+- Monitoring
+
+Then compare and recommend the best architecture for 1 million users.
