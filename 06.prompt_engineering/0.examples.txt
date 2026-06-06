@@ -114,9 +114,7 @@ Solve the problem efficiently and explain the logic.
 
 6. Chain of Thought
 
-        Solve the following problem step by step:
-
-
+Solve the following problem step by step:
 Find the sum of all even numbers between 1 and 50.
 Explain your reasoning clearly.
 
@@ -148,3 +146,16 @@ Self Consistency:
 
 
 Solve this problem using three different methods of reasoning. After you have all three results, determine which answer is the most consistent and provide that as the final conclusion
+
+
+Tree of Thoughts:
+=================
+
+You are solving a complex problem.
+
+
+1. Generate 3 possible approaches.
+2. Evaluate the strengths and weakness of each path.
+3. Expand the most optimal approach.
+4. If it is not suitable, backtrack and try another path.
+5. Present the best final solutions.

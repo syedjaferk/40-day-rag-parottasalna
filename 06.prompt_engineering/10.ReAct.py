@@ -3,7 +3,7 @@ import json
 import requests
 
 # --- Config ---
-API_KEY = "YOUR_GROK_API_KEY"
+API_KEY = "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"
 URL = "https://api.groq.com/openai/v1/chat/completions"
 
 
