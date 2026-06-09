@@ -22,5 +22,5 @@ def get_system_prompt(api_key, query):
 
 
 # Usage
-API_KEY = "YOUR_GROK_API_KEY"
+API_KEY = ""
 print(get_system_prompt(API_KEY, "Find the sum of all even numbers between 1 and 100."))

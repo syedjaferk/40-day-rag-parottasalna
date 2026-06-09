@@ -151,6 +151,8 @@ Solve this problem using three different methods of reasoning. After you have al
 Tree of Thoughts:
 =================
 
+Role: You are a senior tech architect.
+
 You are solving a complex problem.
 
 
@@ -159,3 +161,22 @@ You are solving a complex problem.
 3. Expand the most optimal approach.
 4. If it is not suitable, backtrack and try another path.
 5. Present the best final solutions.
+
+
+{
+        "type": "function",
+        "function": {
+            "name": "get_weather",
+            "description": "Get current weather for a city",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "city": {
+                        "type": "string",
+                        "description": "Name of the city"
+                    }
+                },
+                "required": ["city"]
+            }
+        }
+    }

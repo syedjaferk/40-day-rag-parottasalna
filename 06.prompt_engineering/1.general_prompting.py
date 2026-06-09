@@ -1,6 +1,6 @@
 import requests
 
-GROQ_API_KEY = "YOUR_GROK_API_KEY"
+GROQ_API_KEY = ""
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 MODEL = "openai/gpt-oss-120b"
 
