@@ -1,0 +1,336 @@
+{
+  "name": "RAG - Pinecone Vector Store",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Upload File For RAG",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "File Upload",
+              "fieldType": "file"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -368,
+        -64
+      ],
+      "id": "e71a43ae-b057-4cd1-8876-67650e3ce1f7",
+      "name": "1. Upload File",
+      "webhookId": "08ce88e0-452c-4aaf-a58b-8bf54ad9dcea"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "js-book",
+          "mode": "list",
+          "cachedResultName": "js-book"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        48,
+        -64
+      ],
+      "id": "43d46b98-c1b0-4add-861f-f4c3d0d1d511",
+      "name": "2. Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "le5vQGCTzjFK1Azj",
+          "name": "SJ Pinecone API Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        176
+      ],
+      "id": "7d6f577a-727f-4721-9a4d-20407ecd385e",
+      "name": "2A. Default Data Loader"
+    },
+    {
+      "parameters": {
+        "chunkOverlap": 300,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        368,
+        384
+      ],
+      "id": "35a28f30-2d22-46b5-a539-3c259f7586db",
+      "name": "2B. Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        192
+      ],
+      "id": "f9cf5844-a774-48e5-9cb1-4a0be4eb944d",
+      "name": "2C. Embeddings Ollama",
+      "credentials": {
+        "ollamaApi": {
+          "id": "JCka2ETRsUEtB2ir",
+          "name": "Local Ollama Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Use the pinecone vector store tool to get the necessary context and answer should befrom the context only. \n\nUser Query: {{ $json.query }}\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1008,
+        -64
+      ],
+      "id": "1debf991-f4a4-40a5-a307-9375731bef7a",
+      "name": "2. AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        1312,
+        368
+      ],
+      "id": "e8883616-f2ae-4298-bcb3-93ebcd50beb7",
+      "name": "2A. Query to Embedding",
+      "credentials": {
+        "ollamaApi": {
+          "id": "JCka2ETRsUEtB2ir",
+          "name": "Local Ollama Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Retrieve Documents",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "js-book",
+          "mode": "list",
+          "cachedResultName": "js-book"
+        },
+        "topK": 5,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        1312,
+        144
+      ],
+      "id": "b6750e5b-d6cd-4b42-bd51-f72233e9a475",
+      "name": "2B. Search Query Embedding in Knowledge Base(Vector Store)",
+      "credentials": {
+        "pineconeApi": {
+          "id": "le5vQGCTzjFK1Azj",
+          "name": "SJ Pinecone API Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-120b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        976,
+        304
+      ],
+      "id": "c36d9907-20ef-407a-b5aa-eba68fa721e3",
+      "name": "3. LLM Model",
+      "credentials": {
+        "groqApi": {
+          "id": "wI4S4lQsd9hfVmtU",
+          "name": "SJ Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('1. Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1520,
+        -64
+      ],
+      "id": "b735f4db-af52-463a-953e-9b746f4141a1",
+      "name": "4. Ouput: Send a text message",
+      "webhookId": "c7194011-54e7-4e94-90ec-ce7006c42bf6",
+      "credentials": {
+        "telegramApi": {
+          "id": "3wb8023mp5FIcq3v",
+          "name": "SJ Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"query\": \"give me details on console.log\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        656,
+        -64
+      ],
+      "id": "ebc56c1f-3d17-4eca-8f8c-4243d726c086",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "1. Upload File": {
+      "main": [
+        [
+          {
+            "node": "2. Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2A. Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "2. Pinecone Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2B. Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "2A. Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2C. Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "2. Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. AI Agent": {
+      "main": [
+        [
+          {
+            "node": "4. Ouput: Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2A. Query to Embedding": {
+      "ai_embedding": [
+        [
+          {
+            "node": "2B. Search Query Embedding in Knowledge Base(Vector Store)",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2B. Search Query Embedding in Knowledge Base(Vector Store)": {
+      "ai_tool": [
+        [
+          {
+            "node": "2. AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. LLM Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "2. AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "2. AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "50713b91-cb20-4fba-9a0f-35459820ff12",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b243f0a47a406c87cd60daf04fc898503a6b196a087e627d0f0cd179a5cd2a5c"
+  },
+  "id": "QxPRWPOswxaNQMmt",
+  "tags": []
+}
