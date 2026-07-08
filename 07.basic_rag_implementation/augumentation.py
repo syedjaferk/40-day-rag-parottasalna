@@ -1,5 +1,5 @@
-from retrieval import retrieval
 import requests
+from retrieval import retrieval
 
 GROQ_API_KEY = ""
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
@@ -24,7 +24,6 @@ def call_groq(messages, temperature=0):
         return f"Request failed: {response.status_code} - {response.text}"
 
 
-
 PROMPT = """
 
 You are a Python Expert
@@ -40,10 +39,11 @@ Question:
 Answer:
 """
 
+
 def ask():
     user_query = input("Please enter the query")
     context = retrieval(user_query)
-    prompt = PROMPT.format(
-        context=context,
-        query=user_query
-    )
+    prompt = PROMPT.format(context=context, query=user_query)
+
+
+ask()
